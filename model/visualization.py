@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 def visualization(data):
 <<<<<<< HEAD
   data['target'] = 'Normal'
@@ -22,10 +23,15 @@ def visualization(data):
   ax.legend(targets)
   ax.grid()
 =======
+=======
+import matplotlib.pyplot as plt
+
+
+def visualization(fig, data):
+>>>>>>> f514b382ca4787aed938743803cc3f94e622bae0
     data['target'] = 'Normal'
     data['target'].iloc[int(len(data)/2):] = 'Abnormal'
 
-    fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(1, 1, 1)
     ax.set_xlabel('Component 1', fontsize=15)
     ax.set_ylabel('Component 2', fontsize=15)

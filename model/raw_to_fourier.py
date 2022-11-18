@@ -1,30 +1,33 @@
 import numpy as np
 
 
-def raw_to_fourier(df, fs):
+def fs_to_freq(n, fs):
 
-    col = len(df.columns)
-    fft_lst = []
-    freq_lst = []
+    k = np.arange(n)
+    Fs = int(fs)
+    T = n/Fs
+    freq = k/T
+    freq = freq[range(int(n/2))]
 
-    for i in range(col):
+    return freq
 
-        df_col = df.iloc[:, [i]]
 
-        n = len(df_col)
-        k = np.arange(n)
-        Fs = fs
-        T = n/Fs
-        freq = k/T
-        freq = freq[range(int(n))]
+def raw_to_fourier(wav_np):
+    signal = np.fft.fft(wav_np) / len(wav_np)
+    signal = signal[range(int(len(signal)/2))]
+    signal = abs(signal) ** 2
 
-        Y = np.fft.fft(df_col)/n
+    # fft_lst = []
 
-        Y = Y[range(int(n/2))]
+    # iter = len(df.columns)
+    # n = len(df)
 
-        abs_Y = abs(Y) ** 2
+    # for i in range(iter):
 
-        fft_lst.append(abs_Y)
-        freq_lst.append([freq])
+    #     df_col = df.iloc[:, [i]]
+    #     Y = np.fft.fft(df_col)/n
+    #     Y = Y[range(int(n/2))]
+    #     abs_Y = abs(Y) ** 2
+    #     fft_lst.append(abs_Y)
 
-    return fft_lst, freq_lst
+    return signal
