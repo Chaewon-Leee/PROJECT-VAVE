@@ -80,7 +80,6 @@ all_df = pd.DataFrame(all_dataset.T, columns=list(range(0, 8)))
 all_df["label"] = 0
 all_df["label"][5000:] = 1
 
-
 # MLP solution
 # x_train_all, x_test, y_train_all, y_test = \
 #     train_test_split(all_df.iloc[:, 0: 8], all_df["label"], test_size=0.2,
