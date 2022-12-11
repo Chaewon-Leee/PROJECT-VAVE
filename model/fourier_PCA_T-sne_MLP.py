@@ -11,6 +11,8 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.preprocessing import StandardScaler
 
+import raw_to_fourier as fr
+
 import warnings
 warnings.simplefilter(
     action='ignore', category=FutureWarning)  # FutureWarning 제거
@@ -25,7 +27,7 @@ all_dataset = np.loadtxt(args.raw_data_path, delimiter=',')
 index_list = list(range(0, 80001, 1250))
 dataset_list = []
 for idx in range(1, len(index_list)):
-    dataset_list.appen(
+    dataset_list.append(
         all_dataset[index_list[idx-1]: index_list[idx]]
     )
 
@@ -82,18 +84,24 @@ viz_df = pd.DataFrame(data=viz_features, columns=[
 viz_df["label"] = pca_df["label"]
 
 # MLP solution
-# x_train_all, x_test, y_train_all, y_test = \
-#     train_test_split(viz_df.iloc[:, 0: 2], viz_df["label"], test_size=0.2,
-#                      random_state=42)  # 훈련 데이터와 테스트 데이터 분류
+x_train_all, x_test, y_train_all, y_test = \
+    train_test_split(viz_df.iloc[:, 0: 2], viz_df["label"], test_size=0.2,
+                     random_state=42)  # 훈련 데이터와 테스트 데이터 분류
 
-# scaler = StandardScaler()   # 객체 만들기
-# scaler.fit(x_train_all)     # 변환 규칙을 익히기
-# x_train_scaled = scaler.transform(x_train_all)  # 데이터를 표준화 전처리
-# x_test_scaled = scaler.transform(x_test)
+scaler = StandardScaler()   # 객체 만들기
+scaler.fit(x_train_all)     # 변환 규칙을 익히기
+x_train_scaled = scaler.transform(x_train_all)  # 데이터를 표준화 전처리
+x_test_scaled = scaler.transform(x_test)
 
-# mlp = MLPClassifier(hidden_layer_sizes=(10, 128, 256,), activation='logistic',
-#                     solver='sgd', alpha=0.01, batch_size=32,
-#                     learning_rate_init=0.1, max_iter=500)  # 객체 생성
+mlp = MLPClassifier(hidden_layer_sizes=(10, 128, 256,), activation='logistic',
+                    solver='sgd', alpha=0.01, batch_size=32,
+                    learning_rate_init=0.1, max_iter=500)  # 객체 생성
 
-# mlp.fit(x_train_scaled, y_train_all)    # 훈련하기
+mlp.fit(x_train_scaled, y_train_all)    # 훈련하기
+
+# import pickle
+import joblib
+
+joblib.dump(mlp, 'model_pickle/pca_t-sne_model.pkl')
+
 # print(mlp.score(x_test_scaled, y_test))      # 정확도 평가
