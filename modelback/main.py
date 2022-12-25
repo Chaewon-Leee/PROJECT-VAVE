@@ -4,6 +4,9 @@ from pydantic import BaseModel
 import numpy as np
 import sys
 sys.path.append("../model")
+
+from .database import engine
+
 import raw_to_fourier as fr
 import pandas as pd
 
@@ -110,7 +113,6 @@ async def create_item(data: Data):
     else:
       auto_result = "normal"
 
-    test = [(2, 3), (2, 3), (2, 3), (2, 3)]
 
     fourier_freq_data = []
 
