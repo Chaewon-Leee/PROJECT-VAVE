@@ -7,6 +7,7 @@ sys.path.append("../model")
 
 from .database import engine
 
+
 import raw_to_fourier as fr
 import pandas as pd
 
@@ -112,6 +113,7 @@ async def create_item(data: Data):
       auto_result = "abnormal"
     else:
       auto_result = "normal"
+
 
 
     fourier_freq_data = []

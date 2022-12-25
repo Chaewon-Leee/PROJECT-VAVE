@@ -83,7 +83,9 @@ x_train_all, x_test, y_train_all, y_test = \
 # x_train_scaled = scaler.transform(x_train_all)  # 데이터를 표준화 전처리
 # x_test_scaled = scaler.transform(x_test)
 
+
 encoding_dim = 3
+
 
 
 input_img = keras.Input(shape=(8,))
@@ -111,6 +113,7 @@ encoded_x_train = encoder.predict(x_train_all)
 encoded_x_test = encoder.predict(x_test)
 
 encoder.save("../modelback/pickle_model/auto_encoder")
+
 
 
 mlp = MLPClassifier(hidden_layer_sizes=(64, 128, 256, 64), activation='logistic',
